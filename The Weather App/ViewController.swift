@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         layout.itemSize = CGSize(width: view.bounds.width/3.5, height: view.bounds.width/4)
         
         // Create a collection view
@@ -111,10 +111,10 @@ extension ViewController {
     private func addCollectionViewConstraints(_ collectionView: UICollectionView) {
         // Add constraints to the collection view
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 200),
-            collectionView.topAnchor.constraint(equalTo: tempratureValue.bottomAnchor, constant: 20)
+            collectionView.topAnchor.constraint(equalTo: tempratureValue.bottomAnchor, constant: 20),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
+            collectionView.heightAnchor.constraint(equalToConstant: view.bounds.width/4 + 10)
         ])
     }
     
