@@ -1,31 +1,121 @@
-//
-//  ViewController.swift
-//  The Weather App
-//
-//  Created by Suraphel on 2/28/23.
-//
-
 import UIKit
 
-class ViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating {
+class ViewController: UIViewController {
+    // Create an image view that holds the weather icons
+    private let weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "person.fill")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    // Create a label for weather description
+    private let weatherDescription: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Today is rainy"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
     
-    func updateSearchResults(for searchController: UISearchController) {
+    // Create a label for value of the temprature
+    private let tempratureValue: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "21 ℃"
+        label.font = UIFont.systemFont(ofSize: 30)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private func setUpCollectionView()  {
+        // Create a collection view layout
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.itemSize = CGSize(width: view.bounds.width/3.5, height: view.bounds.width/4)
         
+        // Create a collection view
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.addSubview(collectionView)
+        addCollectionViewConstraints(collectionView)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSearchBar()
+        
+        view.addSubview(weatherIcon)
+        addWeatherIconConstraitns()
+        
+        view.addSubview(weatherDescription)
+        addWeatherDescriptionConstraints()
+        
+        view.addSubview(tempratureValue)
+        addTempratureValueConstraints()
+        
+        setUpCollectionView()
     }
     
-    fileprivate func setupSearchBar() {
-        definesPresentationContext = true
-        navigationItem.searchController = self.searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-    }
 }
 
+extension ViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .red
+        return cell
+    }
+    
+}
+//This extension only holds functions that add constraints for views.
+extension ViewController {
+    
+    // Add constraints to the weatherIcon imageView
+   private func addWeatherIconConstraitns() {
+        NSLayoutConstraint.activate([
+            weatherIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weatherIcon.topAnchor.constraint(equalTo: view.topAnchor),
+            weatherIcon.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            weatherIcon.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
+        ])
+    }
+    
+    // Add constraints to weatherDescription label
+    private func addWeatherDescriptionConstraints() {
+        NSLayoutConstraint.activate([
+            weatherDescription.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weatherDescription.topAnchor.constraint(equalTo: weatherIcon.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    // Add constraints to tempratureLabel
+    private func addTempratureValueConstraints() {
+        NSLayoutConstraint.activate([
+            tempratureValue.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            tempratureValue.topAnchor.constraint(equalTo: weatherDescription.bottomAnchor, constant: 15)
+        ])
+    }
+    
+    private func addCollectionViewConstraints(_ collectionView: UICollectionView) {
+        // Add constraints to the collection view
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 200),
+            collectionView.topAnchor.constraint(equalTo: tempratureValue.bottomAnchor, constant: 20)
+        ])
+    }
+    
+}
