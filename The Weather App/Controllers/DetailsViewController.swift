@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController {
+class DetailsViewController: UIViewController {
     // Create an image view that holds the weather icons
     private let weatherIcon: UIImageView = {
         let imageView = UIImageView()
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension DetailsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
@@ -80,7 +80,7 @@ extension ViewController: UICollectionViewDataSource {
     
 }
 //This extension only holds functions that add constraints for views.
-extension ViewController {
+extension DetailsViewController {
     
     // Add constraints to the weatherIcon imageView
    private func addWeatherIconConstraitns() {
